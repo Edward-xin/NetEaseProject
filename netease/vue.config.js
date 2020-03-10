@@ -1,6 +1,6 @@
 // vue.config.js
 const path = require('path')
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
   // return path.join(__dirname, '..', dir)
 }
@@ -12,21 +12,30 @@ module.exports = {
       // 路径别名
       alias: {
         // import Vue from 'vue/dist/vue.esm.js'
-        'vue$': 'vue/dist/vue.esm.js',
+        vue$: 'vue/dist/vue.esm.js',
         '@': resolve('src')
       }
-    },
+    }
   },
   // 解决跨域问题
   devServer: {
     proxy: {
       '/api': {
         // 目标地址
-        target: 'http://localhost:5000',
+        target: 'http://localhost:5001',
         // 是否跨域
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
+        }
+      },
+      '/wangyi': {
+        // 目标地址
+        target: 'https://m.you.163.com',
+        // 是否跨域
+        changeOrigin: true,
+        pathRewrite: {
+          '^/wangyi': ''
         }
       }
     }

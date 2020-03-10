@@ -12,12 +12,6 @@ export default [
   {
     path: '/home',
     component: Home,
-    // chidleren: [
-    //   {
-    //     path: '/home',
-    //     component: Home,
-    //   }
-    // ],
     meta: {
       isShowFooter: true
     }

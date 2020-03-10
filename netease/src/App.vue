@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <FootGuide v-show="$route.meta.isShowFooter" />
   </div>
 </template>
@@ -13,4 +13,9 @@ export default {
   }
 }
 </script>
-<style lang="stylus" rel="stylesheet/stylus"></style>
+<style lang="stylus" rel="stylesheet/stylus">
+.page
+  width 100%
+  height 100%
+  overflow-x hidden
+</style>

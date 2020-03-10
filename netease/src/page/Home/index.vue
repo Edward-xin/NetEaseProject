@@ -12,50 +12,70 @@
       <div class="header_login">登录</div>
     </div>
     <div class="home_category">
-      <ul class="home_categories">
-        <li class="active">推荐</li>
-        <li>居家生活</li>
-        <li>服饰鞋包</li>
-        <li>美食酒水</li>
-        <li>个人清洁</li>
-        <li>母婴亲子</li>
-        <li>运动旅行</li>
-        <li>数码家电</li>
-        <li>全球特色</li>
-      </ul>
+      <van-tabs
+        line-width="40px"
+        line-height="2px"
+        title-active-color="#DD1A21"
+        swipe-threshold="4"
+      >
+        <van-tab
+          v-for="(item, index) in title"
+          :title="title[index]"
+          :key="index"
+          to="/home"
+        >
+        </van-tab>
+      </van-tabs>
     </div>
     <HomeContent />
   </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+// import BScroll from 'better-scroll'
 import HomeContent from './HomeContent'
 export default {
   name: 'Home',
+  data() {
+    return {
+      title: [
+        '推荐',
+        '居家生活',
+        '服饰鞋包',
+        '美食酒水',
+        '个护清洁',
+        '母婴亲子',
+        '运动旅行',
+        '数码家电',
+        '全球特色'
+      ]
+    }
+  },
   components: {
     HomeContent
   },
   mounted() {
-    this.$nextTick(() => {
-      // 创建滑动对象
-      this.navScroll = new BScroll('.home_category', {
-        click: true, // 可点击
-        probeType: 3, // 可滑动 滑动的类型
-        scrollX: true // 水平滑动
-      })
-    })
+    // this.$nextTick(() => {
+    //   // 创建滑动对象
+    //   this.navScroll = new BScroll('.home_category', {
+    //     click: true, // 可点击
+    //     probeType: 3, // 可滑动 滑动的类型
+    //     scrollX: true // 水平滑动
+    //   })
+    // })
   }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
 .homeContainer
   width 100%
+  background-color #eee
   .home_header
     width 100%
     display flex
     padding 20px 40px
     align-items center
+    background-color #fff
     img
       width 160px
       height 50px
@@ -68,7 +88,7 @@ export default {
       border-radius 10px
       line-height 65px
       i
-        font-size  32px
+        font-size  40px
         color #666
         margin-right 10px
       span
@@ -83,21 +103,30 @@ export default {
       text-align center
       line-height 40px
       border-radius 10px
-.home_category
-  width 100%
-  overflow hidden
-  .home_categories
-    height 80px
-    width 200%
-    line-height 80px
-    display flex
-    li
-      display inline
-      text-align center
-      margin-left 30px
-      font-size 32px
-      &.active
-        font-weight bold
-        color #DD1A21
-        border-bottom 5px solid #DD1A21
+  .home_category
+    width 100%
+    overflow hidden
+    .van-tabs__wrap
+      height 60px
+      // .van-tab--active
+      //   color #DD1A21
+      .van-tab__text
+        font-size 32px
+      // .van-tabs__line
+      //   height 5px
+    // background-color #fff
+    // .home_categories
+    //   height 80px
+    //   width 200%
+    //   line-height 80px
+    //   display flex
+    //   li
+    //     display inline
+    //     text-align center
+    //     margin-left 30px
+    //     font-size 32px
+    //     &.active
+    //       font-weight bold
+    //       color #DD1A21
+    //       border-bottom 5px solid #DD1A21
 </style>

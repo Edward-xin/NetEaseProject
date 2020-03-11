@@ -7,6 +7,8 @@ import Category from '../page/Category'
 import Buy from '../page/Buy'
 import ShopCart from '../page/ShopCart'
 import Personal from '../page/Personal'
+import Search from '../page/Search'
+import Login from '../page/Login'
 
 export default [
   {
@@ -43,6 +45,14 @@ export default [
     meta: {
       isShowFooter: true
     }
+  },
+  {
+    path: '/search',
+    component: Search
+  },
+  {
+    path: '/login',
+    component: Login
   },
   {
     path: '/',

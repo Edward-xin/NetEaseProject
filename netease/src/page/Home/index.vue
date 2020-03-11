@@ -5,18 +5,19 @@
         src="//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/indexLogo-a90bdaae6b.png?imageView&type=webp"
         alt="logo"
       />
-      <div class="header_searchbox">
+      <div @click="$router.push('/search')" class="header_searchbox">
         <i class="iconfont icon-sousuo"></i>
-        <span>搜索商品, 共24053款好物</span>
+        <span>搜索商品 , 共{{ initPlaceHolder }}款好物</span>
       </div>
-      <div class="header_login">登录</div>
+      <div class="header_login" @click="$router.push('/login')">登录</div>
     </div>
     <div class="home_category">
       <van-tabs
-        line-width="40px"
+        line-width="60px"
         line-height="2px"
         title-active-color="#DD1A21"
         swipe-threshold="4"
+        scrollspy="true"
       >
         <van-tab
           v-for="(item, index) in title"
@@ -32,8 +33,8 @@
 </template>
 
 <script>
-// import BScroll from 'better-scroll'
 import HomeContent from './HomeContent'
+import { reqPlaceHolder } from '../../api'
 export default {
   name: 'Home',
   data() {
@@ -48,21 +49,17 @@ export default {
         '运动旅行',
         '数码家电',
         '全球特色'
-      ]
+      ],
+      initPlaceHolder: '' //文本框placeholder数据
     }
   },
   components: {
     HomeContent
   },
-  mounted() {
-    // this.$nextTick(() => {
-    //   // 创建滑动对象
-    //   this.navScroll = new BScroll('.home_category', {
-    //     click: true, // 可点击
-    //     probeType: 3, // 可滑动 滑动的类型
-    //     scrollX: true // 水平滑动
-    //   })
-    // })
+  async mounted() {
+    // 获取首页文本框placeholder数据
+    const initPlaceHolder = await reqPlaceHolder()
+    this.initPlaceHolder = initPlaceHolder.data
   }
 }
 </script>
@@ -108,6 +105,8 @@ export default {
     overflow hidden
     .van-tabs__wrap
       height 60px
+      // width 2000px
+
       // .van-tab--active
       //   color #DD1A21
       .van-tab__text

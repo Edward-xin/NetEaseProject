@@ -1,9 +1,9 @@
 <template>
   <div class="categoryContainer">
-    <div class="category_head">
+    <div class="category_head" @click="$router.push('/search')">
       <div class="header_searchbox">
         <i class="iconfont icon-sousuo"></i>
-        <span>搜索商品, 共24053款好物</span>
+        <span>搜索商品, 共{{ initPlaceHolder }}款好物</span>
       </div>
     </div>
     <div class="category_content">
@@ -55,35 +55,33 @@
 
 <script>
 // import BScroll from 'better-scroll'
-import { reqCategroyDatas } from '../../api'
+import { reqCategroyDatas, reqPlaceHolder } from '../../api'
 export default {
   name: 'Category',
   data() {
     return {
-      activeKey: 0,
-      categoryL1List: [],
-      itemindex: 0,
-      bannerUrl: '',
-      cateLists: []
+      activeKey: 0, // 左侧导航默认选中第一个
+      categoryL1List: [], //左侧导航的数据
+      itemindex: 0, // 左侧导航选中的索引
+      bannerUrl: '', // 右侧内容上面的大图地址
+      cateLists: [], // 右侧内容数据
+      initPlaceHolder: '' //文本框placeholder数据
     }
   },
   async mounted() {
+    // 获取左侧导航的数据
     const datas = await reqCategroyDatas()
     this.categoryL1List = datas.cateNavDatas.categoryL1List
-    // console.log(this.categoryL1List)
-    this.cateLists = datas.cateLists
-    console.log(this.cateLists)
+    // 获取右侧内容上面的大图数据
     this.bannerUrl = this.categoryL1List[this.itemindex].bannerUrl
-    // console.log(this.bannerUrl)
-    // this.$nextTick(() => {
-    //   // 创建滑动对象
-    //   this.navScroll = new BScroll('.rightContent', {
-    //     click: true, // 可点击
-    //     probeType: 2 // 可滑动 滑动的类型
-    //   })
-    // })
+    //  获取右侧内容数据
+    this.cateLists = datas.cateLists
+    // 获取文本框placeholder数据
+    const initPlaceHolder = await reqPlaceHolder()
+    this.initPlaceHolder = initPlaceHolder.data
   },
   methods: {
+    // 把左侧导航的索引缓存
     goRegion(index) {
       this.itemindex = index
     }

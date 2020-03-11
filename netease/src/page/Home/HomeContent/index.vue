@@ -312,11 +312,8 @@
       </div>
       <div class="banquan">
         <p>网易公司版权所有 &copy; 1997-2020</p>
-        <p>食品经营许可证:JY13301080111719</p>
+        <p>食品经营许可证: JY13301080111719</p>
       </div>
-    </div>
-    <div class="footer_guide">
-      <FootGuide />
     </div>
   </div>
 </template>
@@ -325,7 +322,6 @@
 // 引入Swiper及样式
 import Swiper from 'swiper'
 import 'swiper/css/swiper.css'
-import FootGuide from '../../../components/FootGuide'
 import { reqHomeData } from '../../../api'
 export default {
   name: 'HomeContent',
@@ -339,9 +335,6 @@ export default {
       sceneLightShoppingGuideModule: {},
       indexActivityModule: []
     }
-  },
-  components: {
-    FootGuide
   },
   async mounted() {
     const data = await reqHomeData()
@@ -798,31 +791,30 @@ export default {
               width 180px
               height 180px
   .footer
-    width 100%
-    height 390px
-    margin-top 30px
     background-color #414141
-    border-top 1px solid rgba(0,0,0,.15)
+    width 100%
+    height 300px
     display flex
+    margin-bottom 100px
     flex-direction column
     align-items center
+    justify-content center
     .down
-      width 460px
       display flex
+      color #fff
+      font-size 28px
+      margin-bottom 50px
+      width 55%
       justify-content space-between
-      margin 50px 0
-      div
-        width 200px
-        height 70px
-        color #fff
-        font-size 24px
+      >div
+        border 1px solid #999
+        width 150px
         text-align center
-        line-height 70px
-        border 2px solid #999
-        border-radius 5px
+        padding 20px 30px
+        // margin-right 80px
     .banquan
-      text-align center
       color #999
-      font-size 16px
+      font-size 24px
+      text-align center
       line-height 1.5
 </style>

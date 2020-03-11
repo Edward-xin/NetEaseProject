@@ -1,7 +1,5 @@
 <template>
   <div class="footGuideCotainer">
-    <router-view />
-
     <van-tabbar route v-model="active" active-color="#DD1A21">
       <van-tabbar-item replace to="/home">
         <div class="van-tabbar-item__icon">
@@ -50,6 +48,8 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus">
 .van-tabbar
   height 100px
+  position fixed
+  z-index 999
   .van-tabbar-item
     text-align center
 </style>

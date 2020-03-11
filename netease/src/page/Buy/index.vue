@@ -1,11 +1,14 @@
 <template>
   <div class="buyContanier">
     <div class="buy_head">
-      <i class="iconfont icon-shouye "></i>
+      <i class="iconfont icon-shouye" @click="$router.push('/home')"></i>
       <span>值得买</span>
       <div class="head_right">
-        <i class="iconfont icon-sousuo"></i>
-        <i class="iconfont icon-gouwuche2"></i>
+        <i class="iconfont icon-sousuo" @click="$router.push('/search')"></i>
+        <i
+          class="iconfont icon-gouwuche2"
+          @click="$router.push('/shopcart')"
+        ></i>
       </div>
     </div>
     <div class="buy_swiper">
@@ -24,27 +27,37 @@
       </div>
     </div>
     <div class="waterfall">
-      <ul class="wrapfall">
+      <WaterfallEasy :imgsArr="imgsArr" @scrollReachBottom="getData" />
+      <!-- <ul class="wrapfall">
         <li v-for="(fdata, index) in waterfalldatas.data" :key="index">
           <ul>
-            <li v-for="(topic, index) in fdata.topics" :key="index">
+            <li
+              class="innerfall"
+              v-for="(topic, index) in fdata.topics"
+              :key="index"
+            >
               <img :src="topic.picUrl" alt="" />
             </li>
           </ul>
         </li>
-      </ul>
+      </ul> -->
     </div>
   </div>
 </template>
 
 <script>
+import WaterfallEasy from 'vue-waterfall-easy'
 import BScroll from 'better-scroll'
 import { reqBuyCateLists, reqWaterfall } from '../../api'
 export default {
   name: 'Buy',
+  components: {
+    WaterfallEasy
+  },
   data() {
     return {
       navList: [],
+      imgsArr: [],
       waterfalldatas: {}
     }
   },
@@ -53,9 +66,7 @@ export default {
     // console.log(result)
     this.navList = result.data.navList
     // console.log(this.navList)
-    const waterfalldatas = await reqWaterfall()
-    console.log(waterfalldatas.data.topics)
-    console.log(waterfalldatas)
+
     this.$nextTick(() => {
       // 创建滑动对象
       this.navScroll = new BScroll('.swiper-container', {
@@ -66,6 +77,21 @@ export default {
         scrollbar: true
       })
     })
+  },
+  methods: {
+    async getData() {
+      this.waterfalldatas = await reqWaterfall().then(res => {
+        const data = res.data.result[1].topics.map(item => {
+          return item.picUrl
+        })
+        this.imgsArr = this.imgsArr.concat(data)
+        // this.group++
+      })
+      console.log(this.imgsArr)
+    }
+  },
+  created() {
+    this.getData()
   }
 }
 </script>
@@ -146,7 +172,7 @@ export default {
       height 1000px
       // column-count: 2
       // column-gap 20px
-      li
-        width 50%
-        height 200px
+      // .innerfall
+      //   width 50%
+        // height 200px
 </style>

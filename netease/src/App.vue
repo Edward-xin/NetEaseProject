@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <router-view />
     <FootGuide v-show="$route.meta.isShowFooter" />
   </div>
 </template>
@@ -14,8 +15,11 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
+*
+  touch-action: pan-y
 .page
   width 100%
   height 100%
   overflow-x hidden
+  // overflow-y: auto
 </style>

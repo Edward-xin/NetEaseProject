@@ -16,31 +16,6 @@
 
 ## 轮播图
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # 出现的问题集合
 
 ## stylus 里引入图片应书写其他属性才能生效
@@ -49,4 +24,15 @@
 
 ## 主界面左右有滚动条 App 里根元素设置 overflow-x hidden
 
-## 发送请求获取真实接口  跨域问题 可配置多个地址
+## 发送请求获取真实接口 跨域问题 可配置多个地址
+
+## 滑动屏幕报错
+
+    ` [Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive.
+    // 设置全局CSS
+    *
+      touch-action: pan-y````
+
+## 发现页面渲染了两次、内容有两遍
+  ### 首页不需要再引入
+  ### FooterGuide组件里不需要用router-view 视图再渲染一次

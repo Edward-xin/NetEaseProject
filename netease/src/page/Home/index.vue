@@ -1,5 +1,5 @@
 <template>
-  <div class="homeContainer">
+  <div class="homeContainer" ref="homeContainer">
     <div class="home_header">
       <img
         src="//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/indexLogo-a90bdaae6b.png?imageView&type=webp"
@@ -58,13 +58,11 @@
         />
       </a>
     </div>
-    <div class="toTop" @scroll="goTop" ref="top">
-      <a href="top">
-        <img
-          src="http://yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/goToTop-f502426678.png?imageView&type=webp"
-          alt=""
-        />
-      </a>
+    <div class="toTop" @click="goTop" v-show="isShowgotop">
+      <img
+        src="http://yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/goToTop-f502426678.png?imageView&type=webp"
+        alt=""
+      />
     </div>
   </div>
 </template>
@@ -90,7 +88,8 @@ export default {
       ],
       initPlaceHolder: '', //文本框placeholder数据
       isShowdrop: false, // 下拉列表显示或隐藏
-      tabindex: 0 // 各个tab的索引
+      tabindex: 0, // 各个tab的索引
+      isShowgotop: false // 默认不显示滚动到顶部的图标
     }
   },
   components: {
@@ -119,9 +118,32 @@ export default {
       //   click: true,
       // })
     })
+    // 此处true需要加上，不加滚动事件可能绑定不成功
+    window.addEventListener('scroll', this.handleScroll, true)
   },
   methods: {
-    goTop() {},
+    // 滚动超过多少距离显示
+    handleScroll() {
+      const homeContainerScrolltop =
+        document.documentElement.scrollTop || document.body.scrollTop
+      if (homeContainerScrolltop >= 900) {
+        this.isShowgotop = true
+      } else {
+        this.isShowgotop = false
+      }
+      // console.log(document.documentElement.scrollTop)
+    },
+    // 点击滚动到顶部的平滑效果
+    goTop() {
+      let top = document.documentElement.scrollTop || document.body.scrollTop
+      // 实现滚动效果
+      const timeTop = setInterval(() => {
+        document.body.scrollTop = document.documentElement.scrollTop = top -= 50
+        if (top <= 0) {
+          clearInterval(timeTop)
+        }
+      }, 10)
+    },
     // 点击下拉列表里的item触发
     handleDrop(index) {
       // 当前列表项的索引赋值给标签页tab项的索引 会切换tab
@@ -138,7 +160,7 @@ export default {
   width 100%
   background-color #eee
   position relative
-  // touch-action: none
+  overflow-x hidden
   .home_header
     width 100%
     display flex

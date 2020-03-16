@@ -25,7 +25,7 @@
         </div>
         <span>购物车</span>
       </van-tabbar-item>
-      <van-tabbar-item replace to="/personal">
+      <van-tabbar-item @click="checkLogin">
         <div class="van-tabbar-item__icon">
           <i class="iconfont icon-geren"></i>
         </div>
@@ -36,11 +36,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'FootGuide',
   data() {
     return {
       active: 0
+    }
+  },
+  computed: {
+    ...mapState({
+      phoneOremail: state => state.login.phoneOremail
+    })
+  },
+  methods: {
+    checkLogin() {
+      // 如果Vuex里的phoneOremail没有从localStorge获得user数据那他就是''
+      if (this.phoneOremail === '') {
+        this.$router.push('/login')
+      }
     }
   }
 }

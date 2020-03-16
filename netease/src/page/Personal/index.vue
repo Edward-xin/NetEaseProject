@@ -6,7 +6,9 @@
         alt=""
       />
       <div class="user">
-        <p>18859388361</p>
+        <p @click="$router.replace('/login')">
+          {{ phoneOremail ? phoneOremail : '请登录' }}
+        </p>
         <p>普通用户</p>
       </div>
     </div>
@@ -94,15 +96,48 @@
       </van-grid> -->
     </div>
 
-    <div class="loginout">
+    <div class="loginout" @click="loginout">
       退出登录
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  name: 'Personal'
+  name: 'Personal',
+  computed: {
+    /**
+     * ...mapState([''])这种写法只是取一次值，因为没有对应的依赖追踪，他只调用一次，不会去更新。
+     * 而下面这种写法是每次都从state里面取值，依赖追踪到state的数据。建议还是用这种写法好
+     */
+    // ...mapState(['phoneOremail'])
+    ...mapState({
+      phoneOremail: state => state.login.phoneOremail
+    })
+  },
+  methods: {
+    loginout() {
+      this.$dialog
+        .confirm({
+          width: '80%',
+          title: '',
+          message: '退出登录？',
+          confirmButtonColor: '#DD1A21', //确认按钮颜色
+          closeOnClickOverlay: true, //是否在点击遮罩层后关闭弹窗
+          closeOnPopstate: true //是否在页面回退时自动关闭
+        })
+        .then(() => {
+          // 点击确认就清空vuex和localstorage的用户数据
+          this.$store.dispatch('removeUser')
+          // 跳转到首页
+          this.$router.replace('/')
+        })
+        .catch(() => {
+          // on cancel
+        })
+    }
+  }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -185,4 +220,19 @@ export default {
     font-size 32px
     line-height 100px
     margin 40px 0 20px
+.van-dialog__content
+  height 200px
+  display flex
+  justify-content center
+  align-items center
+  .van-dialog__message
+    font-size 40px
+    color #333
+.van-dialog__footer--buttons
+  height 100px
+  display flex
+  justify-content center
+  align-items center
+  .van-button__text
+    font-size 40px
 </style>

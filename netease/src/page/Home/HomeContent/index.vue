@@ -46,9 +46,9 @@
       <ul>
         <li v-for="(policyDesc, index) in policyDescList" :key="index">
           <i
-            :style="{
-              backgroundImage: policyDesc.icon
-            }"
+            :style="
+              `background: url(${policyDesc.icon})center center / cover no-repeat`
+            "
           ></i>
           <span>{{ policyDesc.desc }}</span>
         </li>
@@ -65,14 +65,20 @@
     <div class="bigImg">
       <div class="bigImg_top">
         <div class="change_left">
-          <img
-            src="https://yanxuan-item.nosdn.127.net/1b8f18fe0bba73fd1e3d061f31cccc66.png?imageView&thumbnail=168x0&quality=75"
-            alt=""
-          />
-          <div class="price">
-            <span>￥109</span>
-            <span class="price_line">￥129</span>
-          </div>
+          <van-swipe
+            :autoplay="3000"
+            :show-indicators="false"
+            :width="100"
+            :height="90"
+          >
+            <van-swipe-item v-for="(img, index) in imgArr" :key="index">
+              <img v-lazy="img" />
+              <div class="price">
+                <span>￥109</span>
+                <span class="price_line">￥129</span>
+              </div>
+            </van-swipe-item>
+          </van-swipe>
         </div>
       </div>
       <div class="bigImg_bottom">
@@ -149,10 +155,11 @@
         <li
           v-for="(categories, index) in categoryHotSellModule.categoryList"
           :key="index"
-          @click="$router.push(categories.targetUrl)"
         >
+          <!-- <a :href="categories.targetUrl"> -->
           <p>{{ categories.categoryName }}</p>
           <img :src="categories.showPicUrl" alt="" />
+          <!-- </a> -->
         </li>
       </ul>
     </div>
@@ -199,83 +206,17 @@
       </div>
       <div class="xinpin_content">
         <ul>
-          <li>
+          <li v-for="(newItem, index) in newItemList" :key="index">
             <div class="xinpin_img">
-              <img
-                src="https://yanxuan-item.nosdn.127.net/7e338fd0d5679ad6f73e6f277f9edd95.png?type=webp&imageView&quality=65&thumbnail=330x330"
-                alt=""
-              />
+              <img :src="newItem.showPicUrl" alt="" />
             </div>
-            <div class="xinpin_text">
-              <p>复工装备随身防护 日本空气净化除菌卡</p>
-              <p>￥79</p>
-              <div class="manjian">满99减10</div>
-            </div>
-          </li>
-          <li>
-            <div class="xinpin_img">
-              <img
-                src="https://yanxuan-item.nosdn.127.net/7e338fd0d5679ad6f73e6f277f9edd95.png?type=webp&imageView&quality=65&thumbnail=330x330"
-                alt=""
-              />
-            </div>
-            <div class="xinpin_text">
-              <p>复工装备随身防护 日本空气净化除菌卡</p>
-              <p>￥79</p>
-              <div class="manjian">满99减10</div>
-            </div>
-          </li>
-          <li>
-            <div class="xinpin_img">
-              <img
-                src="https://yanxuan-item.nosdn.127.net/7e338fd0d5679ad6f73e6f277f9edd95.png?type=webp&imageView&quality=65&thumbnail=330x330"
-                alt=""
-              />
-            </div>
-            <div class="xinpin_text">
-              <p>复工装备随身防护 日本空气净化除菌卡</p>
-              <p>￥79</p>
-              <div class="manjian">满99减10</div>
-            </div>
-          </li>
-          <li>
-            <div class="xinpin_img">
-              <img
-                src="https://yanxuan-item.nosdn.127.net/7e338fd0d5679ad6f73e6f277f9edd95.png?type=webp&imageView&quality=65&thumbnail=330x330"
-                alt=""
-              />
-            </div>
-            <div class="xinpin_text">
-              <p>复工装备随身防护 日本空气净化除菌卡</p>
-              <p>￥79</p>
-              <div class="manjian">满99减10</div>
-            </div>
-          </li>
-          <li>
-            <div class="xinpin_img">
-              <img
-                src="https://yanxuan-item.nosdn.127.net/7e338fd0d5679ad6f73e6f277f9edd95.png?type=webp&imageView&quality=65&thumbnail=330x330"
-                alt=""
-              />
-            </div>
-            <div class="xinpin_text">
-              <p>复工装备随身防护 日本空气净化除菌卡</p>
-              <p>￥79</p>
-              <div class="manjian">满99减10</div>
-            </div>
-          </li>
-          <li>
-            <div class="xinpin_img">
-              <img
-                src="https://yanxuan-item.nosdn.127.net/7e338fd0d5679ad6f73e6f277f9edd95.png?type=webp&imageView&quality=65&thumbnail=330x330"
-                alt=""
-              />
-            </div>
-            <div class="xinpin_text">
-              <p>复工装备随身防护 日本空气净化除菌卡</p>
-              <p>￥79</p>
-              <div class="manjian">满99减10</div>
-            </div>
+            <ul class="xinpin_text">
+              <li>
+                <p>{{ newItem.simpleDesc }}</p>
+                <p>￥{{ newItem.retailPrice }}</p>
+                <div class="manjian">{{ newItem.itemTagList[0].name }}</div>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -325,15 +266,20 @@ import 'swiper/css/swiper.css'
 import { reqHomeData } from '../../../api'
 export default {
   name: 'HomeContent',
+  // props: ['tabIndex'],
   data() {
     return {
-      // time: 24 * 60 * 60 * 1000
       kingKongList: [], // 用来存储数据
       policyDescList: [],
       categoryHotSellModule: {},
       flashSaleModule: {},
       sceneLightShoppingGuideModule: {},
-      indexActivityModule: []
+      indexActivityModule: [],
+      newItemList: [],
+      imgArr: [
+        'https://yanxuan-item.nosdn.127.net/1b8f18fe0bba73fd1e3d061f31cccc66.png?imageView&thumbnail=168x0&quality=75',
+        'https://yanxuan-item.nosdn.127.net/eb5aaec3178da93222aeca4b7fcaf757.png?type=webp&imageView&quality=65&thumbnail=330x330'
+      ]
     }
   },
   async mounted() {
@@ -344,7 +290,8 @@ export default {
       categoryHotSellModule,
       flashSaleModule,
       sceneLightShoppingGuideModule,
-      indexActivityModule
+      indexActivityModule,
+      newItemList
     } = data
     this.kingKongList = kingKongList
     this.policyDescList = policyDescList
@@ -352,6 +299,8 @@ export default {
     this.flashSaleModule = flashSaleModule
     this.sceneLightShoppingGuideModule = sceneLightShoppingGuideModule
     this.indexActivityModule = indexActivityModule
+    this.newItemList = newItemList
+
     // console.log(data)
     this.$nextTick(() => {
       /* eslint-disable  */
@@ -441,6 +390,9 @@ export default {
         position absolute
         left 85px
         top 45px
+        width 200px
+        height 220px
+        overflow hidden
         img
           width 200px
           height 200px
@@ -736,25 +688,38 @@ export default {
               width 100%
               height 250px
           .xinpin_text
+            display flex
             padding 20px 0
             box-sizing border-box
-            p
-              font-size 20px
-              color #333
-              line-height 1.5
-              &:nth-of-type(2)
-                font-size 40px
+            li
+              width 100%
+              p
+                font-size 20px
+                color #333
+                line-height 1.5
+                &:nth-of-type(1)
+                  height 80px
+                  // white-space: nowrap 多行不使用
+                  overflow hidden
+                  text-overflow ellipsis
+                  // 多行添加下面四个样式
+                  -webkit-line-clamp:2
+                  -webkit-box-orient: vertical
+                  display: -webkit-box
+                  word-break: break-all
+                &:nth-of-type(2)
+                  font-size 40px
+                  color #DD1A21
+              .manjian
+                width 150px
+                height 40px
+                line-height 40px
+                text-align center
+                font-size 14px
+                transform scale(.7)
                 color #DD1A21
-            .manjian
-              width 150px
-              height 40px
-              line-height 40px
-              text-align center
-              font-size 14px
-              transform scale(.7)
-              color #DD1A21
-              border 3px solid #DD1A21
-              border-radius 20px
+                border 3px solid #DD1A21
+                border-radius 20px
   .jingxuan
     width 100%
     height 720px

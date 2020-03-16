@@ -36,3 +36,7 @@
 ## 发现页面渲染了两次、内容有两遍
   ### 首页不需要再引入
   ### FooterGuide组件里不需要用router-view 视图再渲染一次
+
+<!-- ## 
+  ` [Intervention] Ignored attempt to cancel a touchmove event with cancelable=false, for example because scrolling is in progress and cannot be interrupted.````
+  ### 添加css样式 touch-action: none 当你触摸并按住触摸目标时候，系统默认菜单被禁用 -->

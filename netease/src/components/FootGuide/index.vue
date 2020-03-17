@@ -54,6 +54,8 @@ export default {
       // 如果Vuex里的phoneOremail没有从localStorge获得user数据那他就是''
       if (this.phoneOremail === '') {
         this.$router.push('/login')
+      } else {
+        this.$router.push('/personal')
       }
     }
   }

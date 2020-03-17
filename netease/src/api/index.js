@@ -15,8 +15,12 @@ export const reqCategroyDatas = () => ajax.get(BASE + '/category')
 // 获取值得买页面上面数据
 export const reqBuyCateLists = () => ajax.get(WE + '/topic/v1/know/navWap.json')
 
-// 获取值得买页面瀑布流数据
-export const reqWaterfall = () => ajax.get(WE + '/topic/v1/find/recAuto.json')
+// 获取值得买页面瀑布流首屏数据
+export const reqWaterfall = () => ajax.get(WE + '/topic/v1/find/recManual.json')
+
+// 获取值得买页面瀑布流触底加载数据
+export const reqAutoWaterfall = () =>
+  ajax.get(WE + '/topic/v1/find/recAuto.json')
 
 // 关键字搜索接口
 export const reqKeywordSearch = keyword =>

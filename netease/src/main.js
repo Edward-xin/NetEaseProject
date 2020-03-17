@@ -36,6 +36,9 @@ Vue.use(Swipe)
 Vue.use(SwipeItem)
 Vue.use(Lazyload)
 
+import { VueMasonryPlugin } from 'vue-masonry'
+Vue.use(VueMasonryPlugin)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
